@@ -49,4 +49,6 @@ public class SystemConstants {
     public static final String ADMAIN = "1";
     public static final String NORMAL = "0";
 
+    public static final String ROLE_STATUS_NORMAL = "0";
+    public static final String USER_STATUS_NORMAL = "0";
 }

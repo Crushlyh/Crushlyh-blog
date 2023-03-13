@@ -5,8 +5,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lyh.constants.SystemConstants;
 import com.lyh.domain.ResponseResult;
 import com.lyh.domain.entity.Menu;
+import com.lyh.domain.vo.MenuTreeVo;
+import com.lyh.domain.vo.RoleMenuTreeSelectVo;
 import com.lyh.mapper.MenuMapper;
 import com.lyh.service.MenuService;
+import com.lyh.utils.BeanCopyUtils;
+import com.lyh.utils.SystemConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -102,6 +106,26 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         LambdaQueryWrapper<Menu> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Menu::getParentId,id);
         return count(wrapper)!=0;
+    }
+
+    @Override
+    public ResponseResult getTree() {
+        Menu menu = new Menu();
+        ResponseResult<List<Menu>> result = listMenuTree(menu);
+        List<Menu> menus = result.getData();
+        List<MenuTreeVo> menuTreeVos = SystemConverter.buildMenuSelectTree(menus);
+        return ResponseResult.okResult(menuTreeVos);
+    }
+
+    @Override
+    public ResponseResult roleMenuTreeselect(Long id) {
+        ResponseResult<List<Menu>> result = listMenuTree(new Menu());
+        List<Menu> menus = result.getData();
+        ResponseResult<List<Long>> result1 = menuService.selectMenuById(id);
+        List<Long> checkeKeys = result1.getData();
+        List<MenuTreeVo> menuTreeVos = SystemConverter.buildMenuSelectTree(menus);
+        RoleMenuTreeSelectVo roleMenuTreeSelectVo = new RoleMenuTreeSelectVo(checkeKeys, menuTreeVos);
+        return ResponseResult.okResult(roleMenuTreeSelectVo);
     }
 
     private List<Menu> buildMenuTree(List<Menu> menus,Long parentId) {

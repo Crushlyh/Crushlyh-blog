@@ -2,7 +2,10 @@ package com.lyh.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lyh.domain.ResponseResult;
+import com.lyh.domain.dto.UserDTO;
 import com.lyh.domain.entity.User;
+
+import java.util.List;
 
 
 /**
@@ -18,5 +21,23 @@ public interface UserService extends IService<User> {
     ResponseResult updateUserInfo(User user);
 
     ResponseResult registerUser(User user);
+
+    ResponseResult listAllUser(Integer pageNum, Integer pageSize, User user);
+
+
+
+    ResponseResult addUser(User user);
+
+    ResponseResult deleteUser(List<Long> ids);
+
+    ResponseResult UserInfo(Long id);
+
+    boolean checkUserNameUnique(String userName);
+
+    boolean checkPhoneUnique(User user);
+
+    boolean checkEmailUnique(User user);
+
+    ResponseResult updateUser(User user);
 }
 

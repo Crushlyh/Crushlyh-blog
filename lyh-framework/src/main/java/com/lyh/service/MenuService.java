@@ -28,5 +28,9 @@ public interface MenuService extends IService<Menu> {
     ResponseResult updateMenu(Menu menu);
 
     boolean hasChild(Long id);
+
+    ResponseResult getTree();
+
+    ResponseResult roleMenuTreeselect(Long id);
 }
 
