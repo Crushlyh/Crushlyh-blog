@@ -16,4 +16,5 @@ public class CategoryVO {
     private String name;
     //描述
     private String description;
+    private String status;
 }
